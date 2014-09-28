@@ -27,6 +27,11 @@ var App =  React.createClass({
             return false;
         }
 
+        if (cols > choices) {
+            alert('Số cột > Số lựa chọn');
+            return false;
+        }
+
         this.setState({
             numRows: rows,
             numCols: cols,
