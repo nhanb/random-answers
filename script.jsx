@@ -35,25 +35,32 @@ var App =  React.createClass({
     },
 
     render: function() {
+        var numRows = this.state.numRows;
+        var numCols = this.state.numCols;
         var data = [];
-        var rowIndexes = [];
-        for (var num=0; num < this.state.numRows; num++) {
-            rowIndexes[num] = num;
-        }
-        var self = this;
-        rowIndexes.forEach(function(rowIndex) {
-            var rowData = [];
-            var choices = rowIndexes.map(function(index) {
-                return index + 1;
-            });
 
-            for (var i=0; i < self.state.numCols; i++) {
-                var index = Math.floor(Math.random()*choices.length);
-                rowData.push(choices.splice(index, 1)[0]);
+        for (var i=0; i < numRows; i++) {
+
+            // 1 to numCols inclusive
+            var choices = [];
+            for (var num=1; num < numCols + 1; num++) {
+                choices.push(num);
             }
 
-            data[rowIndex] = rowData;
-        });
+            data[i] = [];
+
+            // First item can't be 0
+            var index = Math.floor(Math.random()*choices.length);
+            data[i].push(choices.splice(index, 1));
+
+            // The rest may be 0
+            for (var ii=0; ii < numCols - 1; ii++) {
+                choices.push(0);
+                var iindex = Math.floor(Math.random()*choices.length);
+                data[i].push(choices.splice(iindex, 1));
+            }
+        }
+
 
         var tableRows = data.map(function(row) {
             tds = row.map(function(td) {
