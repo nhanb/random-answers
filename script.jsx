@@ -58,7 +58,9 @@ var App =  React.createClass({
                 </form>
 
                 <table id="result-table">
-                    {tableRows}
+                    <tbody>
+                        {tableRows}
+                    </tbody>
                 </table>
             </div>
         );
