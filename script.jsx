@@ -13,11 +13,24 @@ var App =  React.createClass({
     },
 
     update: function() {
-        var self = this;
+        var rows = parseInt(this.refs.rows.state.value);
+        var cols = parseInt(this.refs.cols.state.value);
+
+        if (isNaN(rows) || isNaN(cols)) {
+            console.log('NaN');
+            return false;
+        }
+
+        if (rows * cols > 12000) {
+            alert('Lớn quá!');
+            return false;
+        }
+
         this.setState({
-            numRows: self.refs.rows.state.value,
-            numCols: self.refs.cols.state.value,
+            numRows: rows,
+            numCols: cols,
         });
+
         return false;
     },
 
