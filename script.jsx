@@ -7,6 +7,7 @@ var App =  React.createClass({
 
     getInitialState: function() {
         return {
+            numChoices: 4,
             numRows: 4,
             numCols: 4,
         };
@@ -59,7 +60,7 @@ var App =  React.createClass({
 
             // First item can't be 0
             var index = Math.floor(Math.random()*choices.length);
-            data[i].push(choices.splice(index, 1));
+            data[i].push(choices.splice(index, 1)[0]);
 
             var numChosen = 1;  // number of non-zero answers so far
 
@@ -73,21 +74,23 @@ var App =  React.createClass({
 
                 choices.push(0);
                 var iindex = Math.floor(Math.random()*choices.length);
-                var chosenAnswer = choices.splice(iindex, 1);
+                var chosenAnswer = choices.splice(iindex, 1)[0];
                 data[i].push(chosenAnswer);
                 if (chosenAnswer !== 0) {
                     numChosen++;
                 }
             }
         }
+        var textareaContent = data.map(function(row) {
+            return row.join('-');
+        }).join('\n');
 
-
-        var tableRows = data.map(function(row) {
-            tds = row.map(function(td) {
-                return <td>{td}</td>;
-            });
-            return <tr>{tds}</tr>;
-        });
+        var copy = function () {
+          var copyText = document.querySelector("#result-table");
+          copyText.select();
+          document.execCommand("copy");
+          alert("Đã copy!");
+        }
 
         return (
             <div>
@@ -97,12 +100,10 @@ var App =  React.createClass({
                     Số cột: <input type="text" ref="cols" defaultValue="4"/>
                     <button type="submit">Enter</button>
                 </form>
-
-                <table id="result-table">
-                    <tbody>
-                        {tableRows}
-                    </tbody>
-                </table>
+                <button onClick={copy}>Copy kết quả</button>
+                <br/>
+                <textarea id="result-table" value={textareaContent}>
+                </textarea>
             </div>
         );
     },

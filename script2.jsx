@@ -73,12 +73,18 @@ var App2 =  React.createClass({
                 generatedAnswers.push(answers[i][0] + '\n');
             }
         }
-        var randomAnswers = shuffle(generatedAnswers);
+        var randomAnswers = shuffle(generatedAnswers).join('');
         var generated = (
-            <pre>
-                {randomAnswers}
-            </pre>
+            <textarea id="result2" value={randomAnswers}>
+            </textarea>
         );
+
+        var copy = function () {
+          var copyText = document.querySelector("#result2");
+          copyText.select();
+          document.execCommand("copy");
+          alert("Đã copy!");
+        }
 
         return (
             <div>
@@ -86,6 +92,8 @@ var App2 =  React.createClass({
                 <ul>
                     {answerPreviews}
                 </ul>
+                <button onClick={copy}>Copy kết quả</button>
+                <br/>
                 {generated}
             </div>
         );
